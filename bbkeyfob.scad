@@ -17,6 +17,15 @@
  *
  */
 
+/* For exporting to STL, do each part separately, change
+   all but one of the three I_want_the_... variables to 0
+   leaving only one of them set to 1, then render (F6),
+   then export to STL.
+*/
+I_want_the_casing = 1;
+I_want_the_lid = 1;
+I_want_the_buttons = 1;
+
 electronics_diameter = 31;
 electronics_height = 8;
 
@@ -233,15 +242,18 @@ module top_cylinder()
 //$fa=6;
 //$fn=40;
 
-casing();
+if (I_want_the_casing > 0)
+	casing();
 
-rotate([180, 0, 0])
-	top_cylinder();
+if (I_want_the_lid > 0)
+	rotate([180, 0, 0])
+		top_cylinder();
 
-translate( [0, 0,  20 ]) {
-	button(-7, 7, 20, small_button_r, 0);
-	button(-7, -7, 20, large_button_r, 1);
-}
+if (I_want_the_buttons > 0)
+	translate( [0, 0,  20 ]) {
+		button(-7, 7, 20, small_button_r, 0);
+		button(-7, -7, 20, large_button_r, 1);
+	}
 
 
 //keyblock_void();
