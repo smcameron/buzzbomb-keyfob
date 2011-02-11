@@ -26,20 +26,20 @@ I_want_the_casing = 1;
 I_want_the_lid = 1;
 I_want_the_buttons = 1;
 
-electronics_diameter = 31;
+electronics_diameter = 30;
 electronics_height = 8;
 
-inner_diameter = electronics_diameter + 2;
+inner_diameter = electronics_diameter + 1;
 outer_diameter = inner_diameter + 6;
-inner_height = electronics_height + 3;
+inner_height = electronics_height + 3 ;
 outer_height = electronics_height + 4;
 
 keyhead_x = 15;
 keyhead_y = 26;
-keyhead_z = 3;
-keyshaft_width = 11;
+keyhead_z = 5;
+keyshaft_width = 11.5;
 
-keyblock_height = keyhead_z + 6;
+keyblock_height = keyhead_z + 4;
 keyblock_length = keyhead_x + 17;
 keyblock_width = keyhead_y + 6 ;
 keyblock_x_offset = keyblock_length / 2 + outer_diameter / 2 - 14;
@@ -86,28 +86,28 @@ module sharp_edge_4()
 
 module sharp_edge_6()
 {
-	translate( [ 37.7, 0, 6])
+	translate( [ 36.7, 0, 6])
 		rotate( a = [0, 45, 0])
 			cube( [2, 40, 2], center = true);
 }
 
 module sharp_edge_5(y)
 {
-	translate( [ 37.7, y * 16, 0 ])
+	translate( [ 36.7, y * 16, 0 ])
 		rotate( a = [0, 0, 45])
 			cube( [3, 3, 20], center = true);
 }
 
 module sharp_edge_7()
 {
-	translate( [ 37.7, 0, -3.2])
+	translate( [ 36.7, 0, -3.2])
 		rotate( a = [0, 45, 0])
 			cube( [2, 40, 2], center = true);
 }
 
 module keyshaft_void()
 {
-	translate( [keyblock_length + 5, 0, 7.5])
+	translate( [keyblock_length + 5, 0, 5.5])
 	cube( [10, 10, keyshaft_width], center = true);
 }
 
@@ -139,19 +139,23 @@ module casing_bottom_cylinder()
 
 module casing_bottom_void()
 {
-	translate( [ 0, 0, 4] ) {
+	translate( [ 0, 0, 0] ) {
 		union () {
-			cylinder( h = inner_height  + 3, r1 = inner_diameter / 2, r2 = inner_diameter / 2);
-			translate( [0, 0,  inner_height / 2 ])
-				cylinder( h = inner_height / 2 + 2, r1 = (inner_diameter + 3) / 2, r2 = (inner_diameter + 3) / 2 );
+			cylinder( h = inner_height  + 20, r1 = inner_diameter / 2, r2 = inner_diameter / 2);
+			translate( [0, 0,  inner_height / 2 - 3 ])
+				cylinder( h = inner_height / 2 + 6, r1 = (inner_diameter + 4) / 2, r2 = (inner_diameter + 4) / 2 );
 		}
 	}
 }
 
 module anti_rotation_block()
 {
-	translate([14.5, 0,  3])
-		cube( [3.75, 21, 12], center = true);
+	union() {
+		translate([-12, 0,  3.3])
+			cube( [3.5, 14, 7], center = true);
+		translate([-14, 0,  3.3])
+			cube( [6, 8, 7], center = true);
+	}
 }
 
 
@@ -159,6 +163,12 @@ module casing_bottom()
 {
 	
 	casing_bottom_cylinder();
+}
+
+module shave_top()
+{
+	translate([0, 0, 11])
+		cube([50, 50, 5], center = true);
 }
 
 module casing()
@@ -177,6 +187,7 @@ module casing()
 			sharp_edge_5(-1);
 			sharp_edge_6();
 			sharp_edge_7();
+			shave_top();
 		}
 		anti_rotation_block();
 	}
@@ -211,14 +222,17 @@ module button(x, y, z, r, nubbin)
 
 module top_cylinder_void(x, y, z)
 {
-	tcvr = inner_diameter / 2 - 2;
+	tcvr = inner_diameter / 2 - 1;
 
 	translate ([x, y, z]) {
+		cylinder( h = 8, r1 = tcvr, r2 = tcvr, center = true);
+/*
 		difference() {
-			cylinder( h = 3, r1 = tcvr, r2 = tcvr, center = true);
+			cylinder( h = 8, r1 = tcvr, r2 = tcvr, center = true);
 			translate( [ -tcvr, 0, 0])
 				cube( [ tcvr * 2, tcvr * 2, 6], center = true);
 		}
+*/
 	}
 }
 
@@ -227,15 +241,18 @@ module top_cylinder()
 	translate( [0, 0,  20 ]) {
 		difference() {
 			union() {		
-				cylinder( h = 2, r1 = (inner_diameter  + 1.5) / 2, r2 = (inner_diameter  + 1.5) / 2 );
+				translate([0, 0, -4])
+					cylinder( h = 6, r1 = (inner_diameter  + 1.5) / 2, r2 = (inner_diameter  + 1.5) / 2 );
 				translate( [0, 0, 2] )
 					cylinder(h = outer_height / 6, r1 = outer_diameter / 2, r2 = (outer_diameter - outer_height / 4) / 2);
 			}
 			button_hole(-7, 7, 0, small_button_r);
 			button_hole(-7, -7, 0, large_button_r);
-			top_cylinder_void(0, 0, 0.2);
+			top_cylinder_void(0, 0, -2);
+			translate([inner_diameter / 2, 0,  -4])
+				cube([9, 10, 9], center = true);
 		}
-		// top_cylinder_void(0, 0, 0.2);
+		// top_cylinder_void(0, 0, 0.2);	
 	}		
 }
 
@@ -243,7 +260,7 @@ module top_cylinder()
 //$fn=40;
 
 if (I_want_the_casing > 0)
-	casing();
+		casing();
 
 if (I_want_the_lid > 0)
 	rotate([180, 0, 0])
@@ -256,10 +273,17 @@ if (I_want_the_buttons > 0)
 	}
 
 
+
 //keyblock_void();
 //keyshaft_void();
 //sharp_edge_3();
 //sharp_edge_5();
+//sharp_edge_6();
+
+/*
+translate([0, 0, -100])
+	casing_bottom_void();
+*/
 
 
 
