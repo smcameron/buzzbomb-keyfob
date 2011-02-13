@@ -26,10 +26,13 @@ I_want_the_casing = 1;
 I_want_the_lid = 1;
 I_want_the_buttons = 1;
 
+$fa=6;
+$fn=40;
+
 electronics_diameter = 30;
 electronics_height = 8;
 
-inner_diameter = electronics_diameter + 1;
+inner_diameter = electronics_diameter + 2;
 outer_diameter = inner_diameter + 6;
 inner_height = electronics_height + 3 ;
 outer_height = electronics_height + 4;
@@ -37,7 +40,7 @@ outer_height = electronics_height + 4;
 keyhead_x = 15;
 keyhead_y = 26;
 keyhead_z = 5;
-keyshaft_width = 11.5;
+keyshaft_width = 11;
 
 keyblock_height = keyhead_z + 4;
 keyblock_length = keyhead_x + 17;
@@ -51,7 +54,7 @@ module keyring()
 {
 	difference() {
 		cylinder (h = 3, r1 = 7, r2 = 7, center = true);
-		cylinder (h = 4, r1 = 4.5, r2 = 4.5, center = true);
+		cylinder (h = 4, r1 = 5, r2 = 5, center = true);
 	}
 }
 
@@ -108,7 +111,7 @@ module sharp_edge_7()
 module keyshaft_void()
 {
 	translate( [keyblock_length + 5, 0, 5.5])
-	cube( [10, 10, keyshaft_width], center = true);
+	cube( [10, keyshaft_width, 10.25], center = true);
 }
 
 module keyblock_void()
@@ -150,12 +153,8 @@ module casing_bottom_void()
 
 module anti_rotation_block()
 {
-	union() {
-		translate([-12, 0,  3.3])
-			cube( [3.5, 14, 7], center = true);
-		translate([-14, 0,  3.3])
-			cube( [6, 8, 7], center = true);
-	}
+	translate([-16, 0,  2.3])
+		cube( [4, 8, 5], center = true);
 }
 
 
@@ -222,7 +221,7 @@ module button(x, y, z, r, nubbin)
 
 module top_cylinder_void(x, y, z)
 {
-	tcvr = inner_diameter / 2 - 1;
+	tcvr = inner_diameter / 2; // top cyl void radius
 
 	translate ([x, y, z]) {
 		cylinder( h = 8, r1 = tcvr, r2 = tcvr, center = true);
@@ -238,13 +237,19 @@ module top_cylinder_void(x, y, z)
 
 module top_cylinder()
 {
-	translate( [0, 0,  20 ]) {
+	lid_z_translate = 20;
+	// lid_z_translate = -5; // use -5 to check fit
+	lod = (inner_diameter + 2) / 2; // lid outer diameter
+	todb = outer_diameter / 2; // top outer diameter big
+	tods = (outer_diameter - outer_height / 4) / 2; // top outer diameter small
+	
+	translate( [0, 0,  lid_z_translate ]) {
 		difference() {
 			union() {		
 				translate([0, 0, -4])
-					cylinder( h = 6, r1 = (inner_diameter  + 1.5) / 2, r2 = (inner_diameter  + 1.5) / 2 );
+					cylinder( h = 6, r1 = lod, r2 = lod);
 				translate( [0, 0, 2] )
-					cylinder(h = outer_height / 6, r1 = outer_diameter / 2, r2 = (outer_diameter - outer_height / 4) / 2);
+					cylinder(h = outer_height / 6, r1 = todb, r2 = tods);
 			}
 			button_hole(-7, 7, 0, small_button_r);
 			button_hole(-7, -7, 0, large_button_r);
@@ -256,8 +261,6 @@ module top_cylinder()
 	}		
 }
 
-//$fa=6;
-//$fn=40;
 
 if (I_want_the_casing > 0)
 		casing();
