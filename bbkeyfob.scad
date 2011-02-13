@@ -146,7 +146,7 @@ module casing_bottom_void()
 	translate( [ 0, 0, 0] ) {
 		union () {
 			cylinder( h = inner_height  + 20, r1 = inner_diameter / 2, r2 = inner_diameter / 2);
-			translate( [0, 0,  inner_height / 2 - 3 ])
+			translate( [0, 0,  inner_height / 2 - 4 ])
 				cylinder( h = inner_height / 2 + 6, r1 = (inner_diameter + 4) / 2, r2 = (inner_diameter + 4) / 2 );
 		}
 	}
