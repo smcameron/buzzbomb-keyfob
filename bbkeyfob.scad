@@ -154,8 +154,8 @@ module casing_bottom_void()
 
 module anti_rotation_block()
 {
-	translate([-16, 0,  2.3])
-		cube( [4, 8, 8], center = true);
+	translate([-16, 0,  2.7])
+		cube( [4, 8, 7], center = true);
 }
 
 
