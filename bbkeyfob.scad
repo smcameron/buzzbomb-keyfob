@@ -26,8 +26,9 @@ I_want_the_casing = 1;
 I_want_the_lid = 1;
 I_want_the_buttons = 1;
 
-$fa=6;
-$fn=40;
+// for smoother (but more time consuming) rendering, uncomment these
+// $fa=3;
+// $fn=40;
 
 electronics_diameter = 30;
 electronics_height = 8;
@@ -154,7 +155,7 @@ module casing_bottom_void()
 module anti_rotation_block()
 {
 	translate([-16, 0,  2.3])
-		cube( [4, 8, 5], center = true);
+		cube( [4, 8, 8], center = true);
 }
 
 
