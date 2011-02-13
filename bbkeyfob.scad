@@ -170,6 +170,22 @@ module shave_top()
 		cube([50, 50, 5], center = true);
 }
 
+module battery_holder(x, y, z)
+{
+	br = 11; // battery radius
+	bhod = br + 2; // battery holder outer diameter
+	bhid = br + 1; // battery holder inner diameter
+	bhh = 6; // battery holder height
+	translate([x, y, z]) {
+		difference() {
+			cylinder(h = bhh, r1 = bhod, r2 = bhod,
+				center = true); 
+			cylinder(h = bhh, r1 = bhid, r2 = bhid,
+				center = true); 
+		}
+	}
+}
+
 module casing()
 {
 	union() {
@@ -189,6 +205,7 @@ module casing()
 			shave_top();
 		}
 		anti_rotation_block();
+		battery_holder(0, 0, 0);
 	}
 }
 
