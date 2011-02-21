@@ -26,6 +26,13 @@ I_want_the_casing = 1;
 I_want_the_lid = 1;
 I_want_the_buttons = 1;
 
+// set ready_to_print = 1 will cause parts to be rotated 
+// and translated such that all 3 parts will be positioned
+// to print in a single go.
+// set ready_to_print = 0, and parts will be positioned in
+// a way which allows some visual checking of fitment.  //
+ready_to_print = 0;
+
 // for smoother (but more time consuming) rendering, uncomment these
 // $fa=3;
 // $fn=40;
@@ -145,7 +152,8 @@ module casing_bottom_void()
 {
 	translate( [ 0, 0, 0] ) {
 		union () {
-			cylinder( h = inner_height  + 20, r1 = inner_diameter / 2, r2 = inner_diameter / 2);
+			translate([0, 0, -1])
+				cylinder( h = inner_height  + 20, r1 = inner_diameter / 2, r2 = inner_diameter / 2);
 			translate( [0, 0,  inner_height / 2 - 4 ])
 				cylinder( h = inner_height / 2 + 6, r1 = (inner_diameter + 4) / 2, r2 = (inner_diameter + 4) / 2 );
 		}
@@ -154,8 +162,8 @@ module casing_bottom_void()
 
 module anti_rotation_block()
 {
-	translate([-16, 0,  2.7])
-		cube( [4, 8, 7], center = true);
+	translate([-15.5, 0,  2.7])
+		cube( [5, 8, 7], center = true);
 }
 
 
@@ -176,7 +184,7 @@ module battery_holder(x, y, z)
 	br = 11; // battery radius
 	bhod = br + 2; // battery holder outer diameter
 	bhid = br + 1; // battery holder inner diameter
-	bhh = 6; // battery holder height
+	bhh = 4; // battery holder height
 	translate([x, y, z]) {
 		difference() {
 			cylinder(h = bhh, r1 = bhod, r2 = bhod,
@@ -227,7 +235,7 @@ module button(x, y, z, r, nubbin)
 		union() {
 			cylinder( h = 4, r1 = r - 0.3, r2 = r - 0.3, center = true);
 			translate([0, 0, -2])
-				cylinder( h = 2, r1 = r, r2 = r  + 1.5, center = true);
+				cylinder( h = 1, r1 = r + 1.5, r2 = r  + 1.5, center = true);
 			translate([0, 0, 2.5])
 				cylinder(h = 1, r1 = r - 0.3, r2 = r - 1, center = true);
 			if (nubbin > 0) {
@@ -257,7 +265,7 @@ module top_cylinder()
 {
 	lid_z_translate = 20;
 	// lid_z_translate = -5; // use -5 to check fit
-	lod = (inner_diameter + 2) / 2; // lid outer diameter
+	lod = (inner_diameter + 3) / 2; // lid outer diameter
 	todb = outer_diameter / 2; // top outer diameter big
 	tods = (outer_diameter - outer_height / 4) / 2; // top outer diameter small
 	
@@ -273,7 +281,7 @@ module top_cylinder()
 			button_hole(-7, -7, 0, large_button_r);
 			top_cylinder_void(0, 0, -2);
 			translate([inner_diameter / 2, 0,  -4])
-				cube([9, 10, 9], center = true);
+				cube([9, 11, 9], center = true);
 		}
 		// top_cylinder_void(0, 0, 0.2);	
 	}		
@@ -281,16 +289,21 @@ module top_cylinder()
 
 
 if (I_want_the_casing > 0)
-		casing();
+		translate([ 0, 0, 3])
+			casing();
 
 if (I_want_the_lid > 0)
-	rotate([180, 0, 0])
-		top_cylinder();
+	rotate([ready_to_print * 180, 0, 0])
+		translate([ ready_to_print * 40, ready_to_print * 40,
+			-24 * ready_to_print])
+			top_cylinder();
 
 if (I_want_the_buttons > 0)
-	translate( [0, 0,  20 ]) {
-		button(-7, 7, 20, small_button_r, 0);
-		button(-7, -7, 20, large_button_r, 1);
+	rotate([0, 0, ready_to_print * -90])
+	translate( [ready_to_print * -20, ready_to_print * 20,
+		20 + (-ready_to_print * 20) ]) {
+		button(-7, 7, 2.5, small_button_r, 0);
+		button(-7, -7, 2.5, large_button_r, 1);
 	}
 
 
@@ -301,11 +314,8 @@ if (I_want_the_buttons > 0)
 //sharp_edge_5();
 //sharp_edge_6();
 
-/*
-translate([0, 0, -100])
-	casing_bottom_void();
-*/
 
-
+// translate([-50, 0, 0])
+//	casing_bottom_void();
 
 
