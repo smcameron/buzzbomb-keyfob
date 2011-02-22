@@ -35,7 +35,7 @@ ready_to_print = 0;
 
 // for smoother (but more time consuming) rendering, uncomment these
 // $fa=3;
-// $fn=40;
+$fn=40;
 
 electronics_diameter = 30;
 electronics_height = 8;
@@ -47,13 +47,16 @@ outer_height = electronics_height + 4;
 
 keyhead_x = 15;
 keyhead_y = 26;
-keyhead_z = 5;
+keyhead_z = 6;
 keyshaft_width = 11;
 
-keyblock_height = keyhead_z + 4;
-keyblock_length = keyhead_x + 17;
-keyblock_width = keyhead_y + 6 ;
-keyblock_x_offset = keyblock_length / 2 + outer_diameter / 2 - 14;
+keyblock_height = keyhead_z + 3;
+keyblock_length = keyhead_x + 16;
+keyblock_width = keyhead_y + 4 ;
+// keyblock_x_offset = keyblock_length / 2 + outer_diameter / 2 - 14;
+keyblock_x_offset = 21 - 6.5;
+
+lid_keyblock_height = keyhead_z - 1.5;
 
 small_button_r = 3.7;
 large_button_r = 4.3;
@@ -119,7 +122,7 @@ module sharp_edge_7()
 module keyshaft_void()
 {
 	translate( [keyblock_length + 5, 0, 5.5])
-	cube( [10, keyshaft_width, 10.25], center = true);
+	cube( [20, keyshaft_width, 13], center = true);
 }
 
 module keyblock_void()
@@ -128,17 +131,84 @@ module keyblock_void()
 		cube ([keyhead_x, keyhead_y, keyhead_z * 2], center = true);
 }
 
+module lid_sharp_sides(my)
+{
+	translate([0, my * keyblock_width / 2, lid_keyblock_height / 2])
+		rotate([45, 0, 0])
+			cube([keyblock_length, 3, 3], center = true);
+}
+
+module lid_sharp_front()
+{
+	translate([-keyblock_length / 2, 0, lid_keyblock_height / 2])
+		rotate([0, 45, 0])
+			cube([3, keyblock_width, 3], center = true);
+}
+
+module lid_sharp_vert_side(my)
+{
+	translate([-keyblock_length / 2, my * keyblock_width / 2,
+		lid_keyblock_height / 2])
+		rotate([0, 0, 45])
+			cube([3, 3, keyblock_height], center = true);
+}
+
+module lid_keyblock()
+{
+	translate( [-keyblock_x_offset,  0,  1.75]) {
+		difference() {
+			cube( [keyblock_length , keyblock_width,
+				lid_keyblock_height], center = true);
+			lid_sharp_sides(1);
+			lid_sharp_sides(-1);
+			lid_sharp_front();
+			lid_sharp_vert_side(1);
+			lid_sharp_vert_side(-1);
+		}
+	}
+	
+}
+
+module keyblock_smooth_bottom_edge(my)
+{
+	translate([0, my * keyblock_width / 2, -keyblock_height / 2])
+		rotate([45, 0, 0])
+			cube([keyblock_length, 3, 3], center = true);
+}
+
+module keyblock_smooth_front_bottom()
+{
+	translate([keyblock_length / 2, 0, -keyblock_height / 2])
+		rotate([0, 45, 0])
+			cube([3, keyblock_width, 3], center = true);
+}
+
+module keyblock_smooth_front_vert(my)
+{
+	translate([keyblock_length / 2, my * keyblock_width / 2, 0])
+		rotate([0, 0, 45])
+			cube([3, 3, keyblock_height], center = true);
+}
 
 module keyblock()
 {
-	translate( [keyblock_x_offset,  0,  1.5 ])
-		cube( [keyblock_length , keyblock_width, keyblock_height] , center = true);
+	translate( [keyblock_x_offset,  0,  1.5 ]) {
+		difference() {
+			cube( [keyblock_length , keyblock_width,
+				keyblock_height] , center = true);
+			keyblock_smooth_bottom_edge(1);
+			keyblock_smooth_bottom_edge(-1);
+			keyblock_smooth_front_bottom();
+			keyblock_smooth_front_vert(1);
+			keyblock_smooth_front_vert(-1);
+		}
+	}
 }
 
 module casing_bottom_cylinder()
 {
 	union() {
-		cube(1, 1, 1);
+		// cube(1, 1, 1);
 		cylinder(h = outer_height , r1 = outer_diameter / 2, r2 = outer_diameter / 2);
 		translate( [0, 0, -outer_height / 4] )
 			cylinder(h = outer_height / 4, r2 = outer_diameter / 2, r1 = (outer_diameter - outer_height / 4) / 2);
@@ -186,11 +256,15 @@ module battery_holder(x, y, z)
 	bhid = br + 1; // battery holder inner diameter
 	bhh = 4; // battery holder height
 	translate([x, y, z]) {
-		difference() {
-			cylinder(h = bhh, r1 = bhod, r2 = bhod,
-				center = true); 
-			cylinder(h = bhh, r1 = bhid, r2 = bhid,
-				center = true); 
+		union() {
+			difference() {
+				cylinder(h = bhh, r1 = bhod, r2 = bhod,
+					center = true); 
+				cylinder(h = bhh, r1 = bhid, r2 = bhid,
+					center = true); 
+			}
+			translate([ br + 1.5, 0, 0])
+				cube([1, keyhead_y, bhh - 1], center = true);
 		}
 	}
 }
@@ -203,14 +277,14 @@ module casing()
 			casing_bottom_void();
 			keyblock_void();
 			keyshaft_void();
-			sharp_edge_1();
-			sharp_edge_2();
-			sharp_edge_3();
-			sharp_edge_4();
-			sharp_edge_5(1);
-			sharp_edge_5(-1);
-			sharp_edge_6();
-			sharp_edge_7();
+			// sharp_edge_1();
+			// sharp_edge_2();
+			// sharp_edge_3();
+			// sharp_edge_4();
+			// sharp_edge_5(1);
+			// sharp_edge_5(-1);
+			// sharp_edge_6();
+			// sharp_edge_7();
 			shave_top();
 		}
 		anti_rotation_block();
@@ -276,6 +350,7 @@ module top_cylinder()
 					cylinder( h = 6, r1 = lod, r2 = lod);
 				translate( [0, 0, 2] )
 					cylinder(h = outer_height / 6, r1 = todb, r2 = tods);
+				lid_keyblock();
 			}
 			button_hole(-7, 7, 0, small_button_r);
 			button_hole(-7, -7, 0, large_button_r);
@@ -293,12 +368,14 @@ if (I_want_the_casing > 0)
 			casing();
 
 if (I_want_the_lid > 0)
+	rotate([0, 0, (ready_to_print - 1) * 180])
 	rotate([ready_to_print * 180, 0, 0])
-		translate([ ready_to_print * 40, ready_to_print * 40,
+		translate([ready_to_print * 25, ready_to_print * 37,
 			-24 * ready_to_print])
 			top_cylinder();
 
 if (I_want_the_buttons > 0)
+	rotate([0, 0, (ready_to_print - 1) * 180])
 	rotate([0, 0, ready_to_print * -90])
 	translate( [ready_to_print * -20, ready_to_print * 20,
 		20 + (-ready_to_print * 20) ]) {
