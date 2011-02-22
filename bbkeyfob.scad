@@ -31,7 +31,7 @@ I_want_the_buttons = 1;
 // to print in a single go.
 // set ready_to_print = 0, and parts will be positioned in
 // a way which allows some visual checking of fitment.  //
-ready_to_print = 0;
+ready_to_print = 1;
 
 // for smoother (but more time consuming) rendering, uncomment these
 // $fa=3;
@@ -153,12 +153,26 @@ module lid_sharp_vert_side(my)
 			cube([3, 3, keyblock_height], center = true);
 }
 
+module lid_keyblock_void_filler()
+{
+	translate( [-5.5, 0, -4.0])
+		union() {
+			cube ([keyhead_x - 1, keyhead_y - 1,
+				keyhead_z * 2 - 7.5], center = true);
+			cube( [20, keyshaft_width - 1, keyhead_z * 2 - 7.5],
+				center = true);
+		}
+}
+
 module lid_keyblock()
 {
 	translate( [-keyblock_x_offset,  0,  1.75]) {
 		difference() {
-			cube( [keyblock_length , keyblock_width,
-				lid_keyblock_height], center = true);
+			union() {
+				cube( [keyblock_length , keyblock_width,
+					lid_keyblock_height], center = true);
+				lid_keyblock_void_filler();
+			}
 			lid_sharp_sides(1);
 			lid_sharp_sides(-1);
 			lid_sharp_front();
@@ -286,6 +300,9 @@ module casing()
 			// sharp_edge_6();
 			// sharp_edge_7();
 			shave_top();
+			translate([inner_diameter / 2 - 4, 0, 8.5])
+				cube([8, keyblock_width + 0.5, 5],
+					center = true);
 		}
 		anti_rotation_block();
 		battery_holder(0, 0, 0);
@@ -303,19 +320,18 @@ module button_hole(x, y, z, r)
 	}
 }
 
-module button(x, y, z, r, nubbin)
+module button(x, y, z, r)
 {
 	translate( [x, y, z])
 		union() {
-			cylinder( h = 4, r1 = r - 0.3, r2 = r - 0.3, center = true);
-			translate([0, 0, -2])
-				cylinder( h = 1, r1 = r + 1.5, r2 = r  + 1.5, center = true);
-			translate([0, 0, 2.5])
-				cylinder(h = 1, r1 = r - 0.3, r2 = r - 1, center = true);
-			if (nubbin > 0) {
-				translate([0, 0, 2.5])
-					cylinder(h = 2, r1 = 1, r2 = 1, center = true);
-			}
+			cylinder( h = 2, r1 = r - 0.3, r2 = r - 0.3,
+				center = true);
+			translate([0, 0, -1])
+				cylinder( h = 1, r1 = r + 1.5,
+					r2 = r  + 1.5, center = true);
+			translate([0, 0, 1.5])
+				cylinder(h = 1, r1 = r - 0.3,
+					r2 = r - 1, center = true);
 		}
 }
 
@@ -377,10 +393,10 @@ if (I_want_the_lid > 0)
 if (I_want_the_buttons > 0)
 	rotate([0, 0, (ready_to_print - 1) * 180])
 	rotate([0, 0, ready_to_print * -90])
-	translate( [ready_to_print * -20, ready_to_print * 20,
-		20 + (-ready_to_print * 20) ]) {
-		button(-7, 7, 2.5, small_button_r, 0);
-		button(-7, -7, 2.5, large_button_r, 1);
+	translate([ready_to_print * -20, ready_to_print * 20,
+		20 + (-ready_to_print * 21) ]) {
+		button(-7, 7, 2.5, small_button_r);
+		button(-7, -7, 2.5, large_button_r);
 	}
 
 
