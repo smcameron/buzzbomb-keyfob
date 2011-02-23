@@ -269,7 +269,11 @@ module battery_holder(x, y, z)
 	bhod = br + 2; // battery holder outer diameter
 	bhid = br + 1; // battery holder inner diameter
 	bhh = 4; // battery holder height
-	translate([x, y, z]) {
+	/* the plus 0.01 here is to keep the thing from having a bad
+	 * intersection that makes the design a non 2-manifold design
+	 * and thus unable to be exported to an STL file, thus, unprintable
+	 */
+	translate([x + 0.01, y, z]) {
 		union() {
 			difference() {
 				cylinder(h = bhh, r1 = bhod, r2 = bhod,
