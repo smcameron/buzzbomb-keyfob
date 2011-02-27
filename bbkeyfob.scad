@@ -25,6 +25,7 @@
 I_want_the_casing = 1;
 I_want_the_lid = 1;
 I_want_the_buttons = 1;
+make_screw_holes = 1;
 
 // set ready_to_print = 1 will cause parts to be rotated 
 // and translated such that all 3 parts will be positioned
@@ -161,8 +162,10 @@ module lid_sharp_vert_side(my)
 
 module screw_hole(x, y, z, r, height)
 {
-	translate([x, y, z])
-		cylinder(h = height, r1 = r, r2 = r, center = true);
+	if (make_screw_holes > 0) {
+		translate([x, y, z])
+			cylinder(h = height, r1 = r, r2 = r, center = true);
+	}
 }
 
 module lid_keyblock_void_filler()
