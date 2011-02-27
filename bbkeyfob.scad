@@ -72,56 +72,6 @@ module keyring()
 	}
 }
 
-module sharp_edge_1()
-{
-	translate( [ 23, -16,  -4] )
-		rotate( a = [45, -4.5, 0])
-			cube( [ keyblock_length , 3, 3], center = true );
-}
-
-
-module sharp_edge_2()
-{
-	translate( [ 23, 16,  -4] )
-		rotate( a = [45, -4.5, 0])
-			cube( [ keyblock_length , 3, 3], center = true );
-}
-
-module sharp_edge_3()
-{
-	translate( [ 30,  16,  7] )
-		rotate( a = [45, 4.5, 0])
-			cube( [ keyblock_length , 3, 3], center = true );
-}
-
-module sharp_edge_4()
-{
-	translate( [ 30,  -16,  7] )
-		rotate( a = [45, 4.5, 0])
-			cube( [ keyblock_length , 3, 3], center = true );
-}
-
-module sharp_edge_6()
-{
-	translate( [ 36.7, 0, 6])
-		rotate( a = [0, 45, 0])
-			cube( [2, 40, 2], center = true);
-}
-
-module sharp_edge_5(y)
-{
-	translate( [ 36.7, y * 16, 0 ])
-		rotate( a = [0, 0, 45])
-			cube( [3, 3, 20], center = true);
-}
-
-module sharp_edge_7()
-{
-	translate( [ 36.7, 0, -3.2])
-		rotate( a = [0, 45, 0])
-			cube( [2, 40, 2], center = true);
-}
-
 module keyshaft_void()
 {
 	translate( [keyblock_length + 5, 0, 5.5])
@@ -329,14 +279,6 @@ module casing()
 			casing_bottom_void();
 			keyblock_void();
 			keyshaft_void();
-			// sharp_edge_1();
-			// sharp_edge_2();
-			// sharp_edge_3();
-			// sharp_edge_4();
-			// sharp_edge_5(1);
-			// sharp_edge_5(-1);
-			// sharp_edge_6();
-			// sharp_edge_7();
 			shave_top();
 			translate([inner_diameter / 2 - 4, 0, 8.5])
 				cube([8, keyblock_width + 0.5, 5],
@@ -445,9 +387,6 @@ if (I_want_the_buttons > 0)
 
 //keyblock_void();
 //keyshaft_void();
-//sharp_edge_3();
-//sharp_edge_5();
-//sharp_edge_6();
 
 
 // translate([-50, 0, 0])
