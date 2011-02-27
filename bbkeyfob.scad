@@ -17,10 +17,12 @@
  *
  */
 
-/* For exporting to STL, do each part separately, change
-   all but one of the three I_want_the_... variables to 0
-   leaving only one of them set to 1, then render (F6),
-   then export to STL.
+/* For exporting to STL, you can export all parts at once by
+   setting ready_to_print = 1 (see beleow).  Or, you can do each
+   part separately.  To do that, change all but one of the three
+   I_want_the_... variables to 0 leaving only one of them set to
+   1, then render (F6), then export to STL.
+
 */
 I_want_the_casing = 1;
 I_want_the_lid = 1;
@@ -36,8 +38,6 @@ screw_hole_radius = 1;
 // a way which allows some visual checking of fitment.  //
 ready_to_print = 1;
 
-// for smoother (but more time consuming) rendering, uncomment these
-// $fa=3;
 $fn=40;
 
 electronics_diameter = 30;
