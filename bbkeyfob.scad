@@ -26,6 +26,7 @@ I_want_the_casing = 1;
 I_want_the_lid = 1;
 I_want_the_buttons = 1;
 make_screw_holes = 1;
+square_screw_holes = 1;
 screw_hole_radius = 1;
 
 // set ready_to_print = 1 will cause parts to be rotated 
@@ -163,10 +164,18 @@ module lid_sharp_vert_side(my)
 
 module screw_hole(x, y, z, height)
 {
+	sqrt2 = 1.4142135623;
+
 	if (make_screw_holes > 0) {
 		translate([x, y, z])
-			cylinder(h = height, r1 = screw_hole_radius,
-				r2 = screw_hole_radius, center = true);
+			if (square_screw_holes > 0) {
+				cube([2 * screw_hole_radius / sqrt2, 
+					2 * screw_hole_radius / sqrt2,
+					height], center = true);
+			} else {
+				cylinder(h = height, r1 = screw_hole_radius,
+					r2 = screw_hole_radius, center = true);
+			}
 	}
 }
 
