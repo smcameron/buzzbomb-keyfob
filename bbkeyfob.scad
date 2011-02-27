@@ -125,10 +125,16 @@ module keyshaft_void()
 	cube( [20, keyshaft_width, 13], center = true);
 }
 
+front_screw_yoff = 6;
 module keyblock_void()
 {
 	translate( [keyblock_x_offset + 5.5, 0, 5])
-		cube ([keyhead_x, keyhead_y, keyhead_z * 2], center = true);
+		union() {
+			cube ([keyhead_x, keyhead_y, keyhead_z * 2],
+				center = true);
+			screw_hole(-4 + 5.5, front_screw_yoff, 0, 1, 32);
+			screw_hole(-4 + 5.5, -front_screw_yoff, 0, 1, 32);
+		}
 }
 
 module lid_sharp_sides(my)
@@ -153,14 +159,24 @@ module lid_sharp_vert_side(my)
 			cube([3, 3, keyblock_height], center = true);
 }
 
+module screw_hole(x, y, z, r, height)
+{
+	translate([x, y, z])
+		cylinder(h = height, r1 = r, r2 = r, center = true);
+}
+
 module lid_keyblock_void_filler()
 {
 	translate( [-5.5, 0, -4.0])
-		union() {
-			cube ([keyhead_x - 1, keyhead_y - 1,
-				keyhead_z * 2 - 8.5], center = true);
-			cube( [20, keyshaft_width - 0.5, keyhead_z * 2 - 8.5],
-				center = true);
+		difference() {
+			union() {
+				cube ([keyhead_x - 1, keyhead_y - 1,
+					keyhead_z * 2 - 8.5], center = true);
+				cube( [20, keyshaft_width - 0.5, keyhead_z * 2 - 8.5],
+					center = true);
+			}
+			screw_hole(-2, front_screw_yoff, 0, 1, 6);
+			screw_hole(-2, -front_screw_yoff, 0, 1, 6);
 		}
 }
 
