@@ -267,7 +267,7 @@ module battery_holder(x, y, z)
 {
 	br = 11; // battery radius
 	bhod = br + 2; // battery holder outer diameter
-	bhid = br + 1; // battery holder inner diameter
+	bhid = br + 0.5; // battery holder inner diameter
 	bhh = 4; // battery holder height
 	/* the plus 0.01 here is to keep the thing from having a bad
 	 * intersection that makes the design a non 2-manifold design
