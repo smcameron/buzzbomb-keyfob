@@ -262,8 +262,12 @@ module casing_bottom_void()
 
 module anti_rotation_block()
 {
-	translate([-15.0, 0,  2.7])
-		cube( [5, 14, 7], center = true);
+	translate([-15.0, 0,  2.7]) {
+		difference() {
+			cube( [5, 14, 7], center = true);
+			screw_hole(0, 0, 2, 1, 5);
+			}
+	}
 }
 
 
@@ -395,6 +399,8 @@ module top_cylinder()
 			// hole for anti-rotation block
 			translate([inner_diameter / 2, 0,  -4])
 				cube([9, 14.5, 9], center = true);
+
+			screw_hole((inner_diameter / 2) - 1, 0, 0, 1, 15);
 		}
 		// top_cylinder_void(0, 0, 0.2);	
 	}		
