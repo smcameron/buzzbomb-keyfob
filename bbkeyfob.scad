@@ -159,7 +159,7 @@ module lid_keyblock_void_filler()
 		union() {
 			cube ([keyhead_x - 1, keyhead_y - 1,
 				keyhead_z * 2 - 8.5], center = true);
-			cube( [20, keyshaft_width - 1, keyhead_z * 2 - 8.5],
+			cube( [20, keyshaft_width - 0.5, keyhead_z * 2 - 8.5],
 				center = true);
 		}
 }
