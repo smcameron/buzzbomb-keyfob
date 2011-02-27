@@ -26,6 +26,7 @@ I_want_the_casing = 1;
 I_want_the_lid = 1;
 I_want_the_buttons = 1;
 make_screw_holes = 1;
+screw_hole_radius = 1;
 
 // set ready_to_print = 1 will cause parts to be rotated 
 // and translated such that all 3 parts will be positioned
@@ -133,8 +134,8 @@ module keyblock_void()
 		union() {
 			cube ([keyhead_x, keyhead_y, keyhead_z * 2],
 				center = true);
-			screw_hole(-4 + 5.5, front_screw_yoff, 0, 1, 32);
-			screw_hole(-4 + 5.5, -front_screw_yoff, 0, 1, 32);
+			screw_hole(-4 + 5.5, front_screw_yoff, 0, 32);
+			screw_hole(-4 + 5.5, -front_screw_yoff, 0, 32);
 		}
 }
 
@@ -160,11 +161,12 @@ module lid_sharp_vert_side(my)
 			cube([3, 3, keyblock_height], center = true);
 }
 
-module screw_hole(x, y, z, r, height)
+module screw_hole(x, y, z, height)
 {
 	if (make_screw_holes > 0) {
 		translate([x, y, z])
-			cylinder(h = height, r1 = r, r2 = r, center = true);
+			cylinder(h = height, r1 = screw_hole_radius,
+				r2 = screw_hole_radius, center = true);
 	}
 }
 
@@ -178,8 +180,8 @@ module lid_keyblock_void_filler()
 				cube( [20, keyshaft_width - 0.5, keyhead_z * 2 - 8.5],
 					center = true);
 			}
-			screw_hole(-2, front_screw_yoff, 0, 1, 6);
-			screw_hole(-2, -front_screw_yoff, 0, 1, 6);
+			screw_hole(-2, front_screw_yoff, 0, 6);
+			screw_hole(-2, -front_screw_yoff, 0,6);
 		}
 }
 
@@ -268,7 +270,7 @@ module anti_rotation_block()
 	translate([-15.0, 0,  2.7]) {
 		difference() {
 			cube( [5, 14, 7], center = true);
-			screw_hole(0, 0, 2, 1, 5);
+			screw_hole(0, 0, 2, 5);
 			}
 	}
 }
@@ -403,7 +405,7 @@ module top_cylinder()
 			translate([inner_diameter / 2, 0,  -4])
 				cube([9, 14.5, 9], center = true);
 
-			screw_hole((inner_diameter / 2) - 1, 0, 0, 1, 15);
+			screw_hole((inner_diameter / 2) - 1, 0, 0, 15);
 		}
 		// top_cylinder_void(0, 0, 0.2);	
 	}		
