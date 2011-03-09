@@ -29,7 +29,7 @@ I_want_the_lid = 1;
 I_want_the_buttons = 1;
 make_screw_holes = 1;
 square_screw_holes = 1;
-screw_hole_radius = 1;
+screw_hole_radius = 1.5;
 
 // set ready_to_print = 1 will cause parts to be rotated 
 // and translated such that all 3 parts will be positioned
