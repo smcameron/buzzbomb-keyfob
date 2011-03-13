@@ -55,7 +55,7 @@ keyshaft_width = 11;
 
 keyblock_height = keyhead_z + 3;
 keyblock_length = keyhead_x + 16;
-keyblock_width = keyhead_y + 4 ;
+keyblock_width = keyhead_y + 3 ;
 // keyblock_x_offset = keyblock_length / 2 + outer_diameter / 2 - 14;
 keyblock_x_offset = 21 - 6.5;
 
