@@ -54,7 +54,7 @@ keyhead_z = 6;
 keyshaft_width = 11;
 
 keyblock_height = keyhead_z + 3;
-keyblock_length = keyhead_x + 16;
+keyblock_length = keyhead_x + 14;
 keyblock_width = keyhead_y + 3 ;
 // keyblock_x_offset = keyblock_length / 2 + outer_diameter / 2 - 14;
 keyblock_x_offset = 21 - 6.5;
@@ -136,7 +136,7 @@ module lid_keyblock_void_filler()
 			union() {
 				cube ([keyhead_x - 1, keyhead_y - 1,
 					keyhead_z * 2 - 8.5], center = true);
-				cube( [20, keyshaft_width - 0.5, keyhead_z * 2 - 8.5],
+				cube( [18, keyshaft_width - 0.5, keyhead_z * 2 - 8.5],
 					center = true);
 			}
 			screw_hole(-2, front_screw_yoff, 0, 6);
