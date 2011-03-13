@@ -158,6 +158,8 @@ module lid_keyblock()
 			lid_sharp_front();
 			lid_sharp_vert_side(1);
 			lid_sharp_vert_side(-1);
+			screw_hole(-2 - 5.5, front_screw_yoff, -3, 10);
+			screw_hole(-2 - 5.5,  -front_screw_yoff, -3, 10);
 		}
 	}
 	
