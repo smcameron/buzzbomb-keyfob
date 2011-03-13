@@ -306,13 +306,13 @@ module button(x, y, z, r)
 {
 	translate( [x, y, z])
 		union() {
-			cylinder( h = 2, r1 = r, r2 = r,
+			cylinder( h = 2, r1 = r - 0.3, r2 = r - 0.3,
 				center = true);
 			translate([0, 0, -1])
 				cylinder( h = 1, r1 = r + 2.0,
 					r2 = r  + 2.0, center = true);
 			translate([0, 0, 1.5])
-				cylinder(h = 1, r1 = r,
+				cylinder(h = 1, r1 = r - 0.3,
 					r2 = r - 1, center = true);
 		}
 }
