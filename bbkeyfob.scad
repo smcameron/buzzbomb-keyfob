@@ -135,8 +135,8 @@ module lid_keyblock_void_filler()
 		difference() {
 			union() {
 				cube ([keyhead_x - 1, keyhead_y - 1,
-					keyhead_z * 2 - 8.5], center = true);
-				cube( [18, keyshaft_width - 0.5, keyhead_z * 2 - 8.5],
+					keyhead_z * 2 - 7.8], center = true);
+				cube( [18, keyshaft_width - 0.5, keyhead_z * 2 - 7.8],
 					center = true);
 			}
 			screw_hole(-2, front_screw_yoff, 0, 6);
