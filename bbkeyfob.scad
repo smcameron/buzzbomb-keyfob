@@ -83,8 +83,18 @@ module keyblock_void()
 {
 	translate( [keyblock_x_offset + 5.5, 0, 5])
 		union() {
-			cube ([keyhead_x, keyhead_y, keyhead_z * 2],
-				center = true);
+			difference() {
+				cube ([keyhead_x, keyhead_y, keyhead_z * 2],
+					center = true);
+				translate([keyhead_x / 2, keyhead_y / 2, 0]) {
+					rotate([0, 0, 45])
+					cube([2, 2, 20], center = true);
+				}
+				translate([keyhead_x / 2, -keyhead_y / 2, 0]) {
+					rotate([0, 0, 45])
+					cube([2, 2, 20], center = true);
+				}
+			}
 			screw_hole(-4 + 5.5, front_screw_yoff, 0, 32);
 			screw_hole(-4 + 5.5, -front_screw_yoff, 0, 32);
 		}
