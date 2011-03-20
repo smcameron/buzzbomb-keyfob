@@ -68,7 +68,7 @@ module keyring()
 {
 	difference() {
 		cylinder (h = 3, r1 = 7, r2 = 7, center = true);
-		cylinder (h = 4, r1 = 5.5, r2 = 5, center = true);
+		cylinder (h = 4, r1 = 4.5, r2 = 4.5, center = true);
 	}
 }
 
