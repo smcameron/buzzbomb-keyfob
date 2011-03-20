@@ -44,7 +44,7 @@ electronics_diameter = 30;
 electronics_height = 8;
 
 inner_diameter = electronics_diameter + 2;
-outer_diameter = inner_diameter + 6;
+outer_diameter = inner_diameter + 7;
 inner_height = electronics_height + 3 ;
 outer_height = electronics_height + 4;
 
