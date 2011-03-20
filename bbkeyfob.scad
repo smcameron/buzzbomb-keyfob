@@ -149,6 +149,12 @@ module lid_keyblock_void_filler()
 				cube( [18, keyshaft_width - 0.5, keyhead_z * 2 - 7.8],
 					center = true);
 			}
+			translate([-(keyhead_x - 1) / 2, (keyhead_y - 1) / 2, 0])
+				rotate([0, 0, 45])
+					screw_hole(0, 0, 0, keyhead_z * 2 - 7.8 + 20);
+			translate([-(keyhead_x - 1) / 2, -(keyhead_y - 1) / 2, 0])
+				rotate([0, 0, 45])
+					screw_hole(0, 0, 0, keyhead_z * 2 - 7.8 + 20);
 			screw_hole(-2, front_screw_yoff, 0, 6);
 			screw_hole(-2, -front_screw_yoff, 0,6);
 		}
